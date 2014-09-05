@@ -1,41 +1,51 @@
 takktile-ros
 ============
 
-ros drivers for the TakkTile tactile array
+ROS drivers for the TakkTile tactile array
 
-1.) Install TakkTile TakkFast USB drivers (see https://github.com/TakkTile/TakkTile-usb)
+## Installation
 
-This will install TakkTile.py which is a dependency (currently included as a symlink -- need to fix this)
+### Basic Requirements
 
-2) Get code
+You must install TakkTile TakkFast USB drivers (see https://github.com/TakkTile/TakkTile-usb)
 
-> git clone --recursive https://github.com/harvardbiorobotics/takktile_ros.git
+This will install `TakkTile.py` which is a dependency (currently included as a symlink -- need to fix this)
 
-3) Add the package path to the ROS_PACKAGE_PATH
 
-> export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:/path/to/this/directory
+### Repository Installation
 
-or add it to the bashrc
+Go to your ROS working directory. e.g.
+```
+cd ~/ros_ws/src
+``` 
 
-> echo "ROS_PACKAGE_PATH=\$ROS_PACKAGE_PATH:/path/to/this/directory" >> ~/.bashrc
+Clone the repository
+```
+git clone --recursive https://github.com/fsuarez6/takktile_ros.git -b hydro-devel
+``` 
 
-> source ~/.bashrc
+Set USB permissions
+```
+cd takktile_ros
+sudo cp 71-takktile.rules /etc/udev/rules.d/
+``` 
+ 
+Install any missing dependencies using rosdep:
+```
+rosdep update
+rosdep install --from-paths . --ignore-src --rosdistro <groovy | hydro | indigo>
+``` 
 
-4) Compile
+Now compile your ROS workspace. e.g.
+```
+cd ~/ros_ws && catkin_make
+``` 
 
-> rosmake takktile_ros
-
-5) set USB permissions
-
-> sudo cp 71-takktile.rules /etc/udev/rules.d/
-
-6) Run
-> rosrun takktile_ros takktile_node.py
-
-7) Plot (in another terminal while takktile_node.py is running)
-
-ROS Fuerte and earlier releases:
-> rxplot /takktile/calibrated/pressure[0]:pressure[1]:pressure[2]:pressure[3]:pressure[4]
-
-ROS Fuerte and later releases:
-> rqt_plot /takktile/calibrated/pressure[0]:pressure[1]:pressure[2]:pressure[3]:pressure[4]
+### Testing the Installation
+```
+rosrun takktile_ros takktile_node.py
+``` 
+Check the output using `rqt_plot` (in another terminal while `takktile_node.py` is running)
+```
+rqt_plot /takktile/calibrated/pressure[0]:pressure[1]:pressure[2]:pressure[3]:pressure[4]
+``` 
