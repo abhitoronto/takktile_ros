@@ -1,0 +1,11 @@
+<launch>
+  <node name="takktile_node" pkg="takktile_ros" type="takktile_node.py" output="screen"/>
+  
+  <node name="robotiq_udp" pkg="takktile_ros" type="robotiq_udp.py" output="screen"> 
+    <param name="sensors_per_finger" type="int" value="4" />
+    <param name="write_ip" type="string" value="192.168.0.5" />
+    <param name="write_port" type="int" value="6052" />
+    <param name="read_port" type="int" value="6051" />
+  </node>
+</launch>
+
