@@ -1,0 +1,20 @@
+<launch>
+  
+  <!-- start the netft node -->
+  <include file="$(find netft_rdt_driver)/launch/netft.launch" >
+    <arg name="ip_address" value="192.168.0.7" />
+  </include>
+  
+  <!-- start takktile node -->
+  <node name="takktile_node" pkg="takktile_ros" type="takktile_node.py" output="screen" required="true" />
+  
+  <!-- start rqt to visualize F/T sensor readings -->
+  <node name="plot_netft" pkg="netft_rdt_driver" type="plot.sh" output="screen" />
+
+  <!-- logging node -->
+  <node name="takktile_force_calibration" pkg="takktile_ros" type="takktile_force_calibration.py" output="screen" >
+    <param name="filename_key" value="calibration"/>
+    <param name="folder" value="takktile_data"/>
+  </node>
+
+</launch>
